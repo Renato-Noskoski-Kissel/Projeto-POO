@@ -9,25 +9,13 @@ class Competidorfase1:
 
 class Competidorfase2(Competidorfase1):
     def __init__(self, nome, idade, linguagens, matricula, semestre, universidade, aproveitamento, time):
-        self.nome = nome
-        self.idade = idade
-        self.linguagens = linguagens
-        self.matricula = matricula
-        self.semestre = semestre
-        self.universidade = universidade
+        super().__init__(nome, linguagens, matricula, semestre, universidade)
         self.aproveitamento = aproveitamento
         self.time = time
 
 class Competidorfase3(Competidorfase2):
     def __init__(self, nome, idade, linguagens, matricula, semestre, universidade, aproveitamento, time, pais, documento, experiencia):
-        self.nome = nome
-        self.idade = idade
-        self.linguagens = linguagens
-        self.matricula = matricula
-        self.semestre = semestre
-        self.universidade = universidade
-        self.aproveitamento = aproveitamento
-        self.time = time
+        super().__init__(nome, linguagens, matricula, semestre, universidade)
         self.pais = pais
         self.documento = documento
         self.experiencia = experiencia

@@ -2,7 +2,7 @@ import random
 from classes_fases import Competidorfase1, Competidorfase2, Competidorfase3
 
 nomes = [
-    "João","Lucas","Felipe","André","Maria","Beatriz","Ana","Juliana","Zorglon","Cynthi" #Corretos
+    "João","Lucas","Felipe","André","Maria","Beatriz","Ana","Juliana","Zorglon","Cynthi", #Corretos
     "Jo@o","Beatr!z","Maria123"] #Caracteres errados
 
 linguagens = [
