@@ -2,34 +2,34 @@ import random
 from classes_fases import Competidorfase1, Competidorfase2, Competidorfase3
 
 nomes = [
-    "João","Lucas","Felipe","André","Maria","Beatriz","Ana","Juliana","Zorglon","Cynthi", #Corretos
+    "Renato", "Mateus", "Stella", "Maicon", "Rodrigo", "Dornelles", "Manuela", "Luisa", "Vinicius", "Maria", "Victor", "Victorio", "Amanda", "Zafir", "Marco", "Julia", "Felipe", "Leticia", "Lara", "Renato", "Mateus", "Maicon",
     "Jo@o","Beatr!z","Maria123"] #Caracteres errados
 
 linguagens = [
-    "Python", "C++", "Java", "JavaScript", "Go", "Rust",  #Corretas
+    "Python", "C++", "Java", "JavaScript", "Go", "Rust", "C", "Kotlin", "Perl", "Bash",  #Corretas
     "C#Script", "Git", " "]  #Inventadas
 
 universidades = [
-    "UFSC","USP","UFRJ","UNICAMP","UFMG","UFPE","UFRGS","UFPR",  # Corretas
-    "UEEST","Harvard Brasil","USPTCC"]  #Inventadas
+    "UFSC","USP","UFRJ","UNICAMP","UFMG","UFPE","UFRGS","UFPR", "UnB", "FURG", "UFBA", "UFAM", "IME-USP", "PUC-RS", "PUC-SC", "PUC-PR", "Mackenzie", "FAAP", "Feevale", "Unisul", # Corretas
+    "UEEST","USPTCC", "HARVARD"]  #Inventadas
 
 times = [
-    "Alpha Coders","Bit Masters","Code Hackers","Syntax Team","DataStorm","Logic Lords","BugSlayers","ByteForge","Compilers","Backtrackers", #Correto
+    "Alpha Coders","Bit Masters","Code Hackers","Syntax Team","Data Storm","Logic Lords","Bug Slayers","Byte Forge","Back Trackers", "Cyber Knights", "Byte Bandits", "Quantum Force", "Debug Masters", #Correto
     "Techies","Coders","Team!!!"]  #Incorretos
 
 semestres = [
         18.1, 18.2, 19.1, 19.2, 20.1, 20.2, 21.1, 21.2, 22.1, 22.2, 23.1, 23.2, 24.1, 24.2, 25.1, 25.2, #Corretos
-        26.1, 26.2, 20.3, 30.1, 25.11 ] #Errados
+        26.1, 20.3, 30.1, 25.11 ] #Errados
 
 paises = [
-    "Brasil","Argentina","Canadá","Estados Unidos","França","Alemanha","Japão","Austrália", #Corretos
+    "Brasil","Argentina","Canadá","Estados Unidos","França","Alemanha","Japão","Austrália", "India", "Reino Unido", "Russia", "China", #Corretos
     "Narnia","Galrasia","Saara Ocidental"] #Inventados
 
 def gerador_fase1():
     nome = random.choice(nomes)
-    idade = random.randint(15, 31)
+    idade = random.randint(17, 30)
     linguagem = random.choice(linguagens)
-    matricula = random.randint(18000000, 30999999)
+    matricula = random.randint(18000000, 27000300)
     semestre = random.choice(semestres)
     universidade = random.choice(universidades)
 
@@ -37,27 +37,27 @@ def gerador_fase1():
 
 def gerador_fase2():
     nome = random.choice(nomes)
-    idade = random.randint(15, 31)
+    idade = random.randint(17, 29)
     linguagem = random.choice(linguagens)
-    matricula = random.randint(18000000, 30999999)
+    matricula = random.randint(18000000, 27000300)
     semestre = random.choice(semestres)
     universidade = random.choice(universidades)
-    aproveitamento = round(random.uniform(60.0, 105.0), 1)
+    aproveitamento = round(random.uniform(65.0, 102.0), 1)
     time = random.choice(times)
 
     return Competidorfase2(nome, idade, linguagem, matricula, semestre, universidade, aproveitamento, time)
 
 def gerador_fase3():
     nome = random.choice(nomes)
-    idade = random.randint(15, 31)
+    idade = random.randint(18, 29)
     linguagem = random.choice(linguagens)
-    matricula = random.randint(18000000, 30999999)
+    matricula = random.randint(18000000, 27000300)
     semestre = random.choice(semestres)
     universidade = random.choice(universidades)
-    aproveitamento = round(random.uniform(60.0, 105.0), 1)
+    aproveitamento = round(random.uniform(65.0, 101.0), 1)
     time = random.choice(times)
     pais = random.choice(paises)
-    documento = random.randint(52345678900, 100000050888)
-    experiencia = random.randint(0, 5)
+    documento = random.randint(72345678900, 100000050888)
+    experiencia = random.randint(0, 2)
 
     return Competidorfase3(nome, idade, linguagem, matricula, semestre, universidade, aproveitamento, time, pais, documento, experiencia)

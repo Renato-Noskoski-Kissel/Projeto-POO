@@ -17,6 +17,7 @@ class Bemvindo:
         self.acertos_fase_atual = 0
         self.erros_fase_atual = 0
         self.competidor_atual = None
+        self.ultimo = 2
         self.erros_competidor_atual = [] # Para armazenar os erros do competidor atual
 
         # Dicionários para gerenciar as fases
@@ -168,7 +169,7 @@ class Bemvindo:
         self.erros_fase_atual = 0
         self.atualizar_status()
         self.proximo_competidor()
-
+    
     def proximo_competidor(self):
         gerador = self.geradores[self.fase_atual_numero]
         validador = self.validadores[self.fase_atual_numero]
@@ -189,20 +190,29 @@ class Bemvindo:
         if aceitou_jogador:
             if not competidor_tem_erros:
                 self.acertos_fase_atual += 1
-                # print("Competidor aceito corretamente!") # Para depuração
+                self.ultimo = 1
             else:
                 self.erros_fase_atual += 1
-                # print(f"Erro! Competidor aceito, mas tinha erros: {self.erros_competidor_atual}") # Para depuração
+                self.ultimo = 0
         else: # Recusou o jogador
             if competidor_tem_erros:
                 self.acertos_fase_atual += 1
-                # print("Competidor recusado corretamente!") # Para depuração
+                self.ultimo = 1
             else:
                 self.erros_fase_atual += 1
-                # print("Erro! Competidor recusado, mas era válido.") # Para depuração
+                self.ultimo = 0
+        if self.ultimo == 1:
+            self.imgatualfases = "Jogoprincipal/Fotospy/fundo_correto.png"
+            self.redimensionarfases()
+            self.fase_status.config(bg ="#09c739")
+            self.competidor.config(bg = "#09c739")
+        else: 
+            self.imgatualfases = "Jogoprincipal/Fotospy/fundo_errado.png"
+            self.redimensionarfases()
+            self.fase_status.config(bg = "#d00303")
+            self.competidor.config(bg = "#d00303")
 
-        self.atualizar_status()
-        self.verificar_progresso_fase()
+        self.master.after(500, self.voltar_fundo_fases)
 
     def atualizar_status(self):
         self.fase_status.config(text=f"Fase: {self.fase_atual_numero}")
@@ -219,8 +229,8 @@ class Bemvindo:
                 self.erros_fase_atual = 0
                 self.atualizar_status()
                 self.proximo_competidor()
-                self.info_competidor_label.config(text=f"*** AVANÇANDO PARA FASE {self.fase_atual_numero} ***\n\nPreparando próximo competidor...")
-                self.master.after(2000, self.proximo_competidor) # Pequena pausa para mostrar a mensagem de fase
+                self.info_competidor_label.config(text=f"AVANÇANDO PARA\nFASE {self.fase_atual_numero}", justify=CENTER)
+                self.master.after(3000, self.proximo_competidor) # Pequena pausa para mostrar a mensagem de fase
 
         elif self.erros_fase_atual >= self.max_erros[self.fase_atual_numero]:
             self.mostrar_tela_final("gameover")
@@ -236,15 +246,18 @@ class Bemvindo:
         self.imgfinaltk = ImageTk.PhotoImage(self.img_final)
         self.tela_final_frame = Frame(self.master)
         self.tela_final_frame.place(x=0, y=0, relwidth=1, relheight=1)
-        self.fundo_game_label = Label(self.tela_final_frame, image=self.imgfinaltk)
-        self.fundo_game_label.place(x=0, y=0, relwidth=1, relheight=1)
+        self.fundo_final_label = Label(self.tela_final_frame, image=self.imgfinaltk)
+        self.fundo_final_label.place(x=0, y=0, relwidth=1, relheight=1)
         self.master.bind("<Configure>", self.redimensionarfinal)
 
         self.reiniciar_btn = Button(self.tela_final_frame, text="Reiniciar Jogo", font=("Adobe Garamond Pro", 20), bd=5, relief="raised", width=15, height=2, bg="#36668D", fg="white", activebackground="#306998", activeforeground="white", highlightbackground="#2b5a87", command=self.reiniciar_jogo)
-        self.reiniciar_btn.place(relx = 0.25, rely = 0.8)
+        self.reiniciar_btn.place(relx = 0.2, rely = 0.8)
+
+        self.lista_regras.place(relx = 0.43, rely = 0.825)
+        self.lista_regras.lift()
 
         self.sair_btn = Button(self.tela_final_frame, text="Sair", font=("Adobe Garamond Pro", 20), bd=5, relief="raised", width=15, height=2, bg="#A72823", fg="white", activebackground="#C9302C", activeforeground="white", highlightbackground="#912d2b", command=self.master.destroy)
-        self.sair_btn.place(relx= 0.587, rely=0.8)
+        self.sair_btn.place(relx= 0.622, rely=0.8)
 
     def reiniciar_jogo(self):
         self.tela_final_frame.destroy() # Remove a tela final
@@ -257,6 +270,14 @@ class Bemvindo:
     def Fechar_Lista_Regras(self):
         self.regras_frame.place_forget()
 
+    def voltar_fundo_fases(self):
+        self.imgatualfases = "Jogoprincipal/Fotospy/fundo_fases.png"
+        self.fase_status.config(bg = "#000000")
+        self.competidor.config(bg = "#000000")
+        self.redimensionarfases()
+        self.atualizar_status()
+        self.verificar_progresso_fase()
+
     def redimensionar(self, event):
         self.img_redimencionada = Image.open(self.imgatual)
         novo_height = event.height
@@ -267,10 +288,15 @@ class Bemvindo:
             self.containerfundo.config(image=self.imgtk)
             self.containerfundo.image = self.imgtk # Manter referência
 
-    def redimensionarfases(self, event):
+    def redimensionarfases(self, event=None):
+        if event != None:
+            novo_width = event.width
+            novo_height = event.height
+        else:
+            novo_width = self.fundo_game_label.winfo_width()
+            novo_height = self.fundo_game_label.winfo_height()
+
         self.img_redimencionadafases = Image.open(self.imgatualfases)
-        novo_height = event.height
-        novo_width = event.width
         if novo_width > 0 and novo_height > 0:
             novotamanho = self.img_redimencionadafases.resize((novo_width, novo_height), Image.LANCZOS)
             self.imgtk = ImageTk.PhotoImage(novotamanho)
@@ -284,8 +310,8 @@ class Bemvindo:
         if novo_width > 0 and novo_height > 0:
             novotamanho = self.img_redimencionadafinal.resize((novo_width, novo_height), Image.LANCZOS)
             self.imgtk = ImageTk.PhotoImage(novotamanho)
-            self.fundo_game_label.config(image=self.imgtk)
-            self.fundo_game_label.image = self.imgtk # Manter referência
+            self.fundo_final_label.config(image=self.imgtk)
+            self.fundo_final_label.image = self.imgtk # Manter referência
 
 # Instancia a classe Bemvindo e inicia o loop principal do Tkinter
 app = Bemvindo(root)
